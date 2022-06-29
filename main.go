@@ -77,7 +77,7 @@ func sshTo(user string, password string, host string, gateway string) (string, e
 	}
 
 	defer client.Close()
-	cmd := fmt.Sprintf("ping -c 5 %s | tail -1 | awk -F'/' '{print $5 $6}'", gateway)
+	cmd := fmt.Sprintf("ping -c 5 %s | tail -1 | awk -F'/' '{print $5,$6}'", gateway)
 	res, err := client.Run(cmd)
 	if err != nil {
 		return "", err
