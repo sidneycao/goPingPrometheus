@@ -101,7 +101,7 @@ func sshTo(user string, password string, host string, gateway string) (string, e
 }
 
 func webhook(avg string, max string) {
-	cmd := exec.Command("sh", "/root/curlWebhook.sh", *gateway, avg, max)
+	cmd := exec.Command("sh", "~/curlWebhook.sh", *gateway, avg, max)
 	err := cmd.Run()
 	if err != nil {
 		log.Panic(err)
