@@ -58,7 +58,8 @@ func main() {
 			fmt.Println(res)
 			avg := strings.Split(res, " ")[0]
 			max := strings.Split(res, " ")[1]
-			fmt.Println(avg, max)
+			fmt.Println(avg)
+			fmt.Println(max)
 
 			time.Sleep(60 * time.Second)
 		}
