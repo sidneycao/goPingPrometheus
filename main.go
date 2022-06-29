@@ -58,19 +58,21 @@ func main() {
 			}
 			fmt.Println(time.Now())
 			fmt.Println(res)
-			avg, err := strconv.ParseFloat(strings.Split(res, " ")[0], 64)
+			avg := strings.Split(res, " ")[0]
+			max := strings.Split(res, " ")[1]
+			avgF, err := strconv.ParseFloat(avg, 64)
 			if err != nil {
 				log.Panic(err)
 			}
-			max, err := strconv.ParseFloat(strings.Split(res, " ")[1], 64)
+			maxF, err := strconv.ParseFloat(max, 64)
 			if err != nil {
 				log.Panic(err)
 			}
-			pingAvg.With(prometheus.Labels{"type": "avg"}).Set(avg)
-			pingMax.With(prometheus.Labels{"type": "max"}).Set(max)
+			pingAvg.With(prometheus.Labels{"type": "avg"}).Set(avgF)
+			pingMax.With(prometheus.Labels{"type": "max"}).Set(maxF)
 
-			if avg > 10 {
-				webhook()
+			if avgF > 10 {
+				webhook(avg, max)
 			}
 
 			time.Sleep(60 * time.Second)
@@ -98,11 +100,10 @@ func sshTo(user string, password string, host string, gateway string) (string, e
 	return string(resN), nil
 }
 
-func webhook() {
-	cmd := exec.Command("echo", "high")
-	res, err := cmd.Output()
+func webhook(avg string, max string) {
+	cmd := exec.Command("sh", "./curlWebhook.sh", *gateway, avg, max)
+	err := cmd.Run()
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Println(string(res))
 }
