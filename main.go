@@ -4,10 +4,13 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/melbahja/goph"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
@@ -44,7 +47,6 @@ func main() {
 	//获取命令行参数
 	flag.Parse()
 
-	/***
 	go func() {
 		for {
 			//登陆测试机
@@ -54,19 +56,16 @@ func main() {
 			}
 			fmt.Println(time.Now())
 			fmt.Println(res)
+			avg := strings.Split(res, " ")[0]
+			max := strings.Split(res, " ")[0]
+			fmt.Println(avg, max)
+
+			time.Sleep(60 * time.Second)
 		}
 	}()
-	***/
 
-	res, err := sshTo(*user, *password, *host, *gateway)
-	if err != nil {
-		log.Panic(err)
-	}
-	fmt.Println(time.Now())
-	fmt.Println(res)
-
-	//http.Handle("/metrics", promhttp.Handler())
-	//log.Panic(http.ListenAndServe(*httpPort, nil))
+	http.Handle("/metrics", promhttp.Handler())
+	log.Panic(http.ListenAndServe(*httpPort, nil))
 
 }
 
