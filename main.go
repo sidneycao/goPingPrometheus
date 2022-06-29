@@ -67,7 +67,7 @@ func main() {
 			}
 
 			pingAvg.With(prometheus.Labels{}).Set(avg)
-			pingMax.With(prometheus.Labels{}).Set(avg)
+			pingMax.With(prometheus.Labels{}).Set(max)
 
 			time.Sleep(60 * time.Second)
 		}
