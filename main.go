@@ -90,6 +90,6 @@ func sshTo(user string, password string, host string, gateway string) (string, e
 	if err != nil {
 		return "", err
 	}
-
-	return string(res), nil
+	resN := strings.Split(string(res), "\n")[0]
+	return string(resN), nil
 }
