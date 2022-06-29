@@ -104,5 +104,5 @@ func webhook() {
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Println(res)
+	fmt.Println(string(res))
 }
