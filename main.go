@@ -66,8 +66,8 @@ func main() {
 				log.Panic(err)
 			}
 
-			pingAvg.With(prometheus.Labels{}).Set(avg)
-			pingMax.With(prometheus.Labels{}).Set(max)
+			pingAvg.With(prometheus.Labels{"type": "avg"}).Set(avg)
+			pingMax.With(prometheus.Labels{"type": "max"}).Set(max)
 
 			time.Sleep(60 * time.Second)
 		}
