@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -65,9 +66,12 @@ func main() {
 			if err != nil {
 				log.Panic(err)
 			}
-
 			pingAvg.With(prometheus.Labels{"type": "avg"}).Set(avg)
 			pingMax.With(prometheus.Labels{"type": "max"}).Set(max)
+
+			if avg > 50 {
+				webhook()
+			}
 
 			time.Sleep(60 * time.Second)
 		}
@@ -92,4 +96,13 @@ func sshTo(user string, password string, host string, gateway string) (string, e
 	}
 	resN := strings.Split(string(res), "\n")[0]
 	return string(resN), nil
+}
+
+func webhook() {
+	cmd := exec.Command("echo", "high")
+	res, err := cmd.Output()
+	if err != nil {
+		log.Panic(err)
+	}
+	fmt.Println(res)
 }
