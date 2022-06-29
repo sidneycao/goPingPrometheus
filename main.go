@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -56,10 +57,17 @@ func main() {
 			}
 			fmt.Println(time.Now())
 			fmt.Println(res)
-			avg := strings.Split(res, " ")[0]
-			max := strings.Split(res, " ")[1]
-			fmt.Println(avg)
-			fmt.Println(max)
+			avg, err := strconv.ParseFloat(strings.Split(res, " ")[0], 64)
+			if err != nil {
+				log.Panic(err)
+			}
+			max, err := strconv.ParseFloat(strings.Split(res, " ")[1], 64)
+			if err != nil {
+				log.Panic(err)
+			}
+
+			pingAvg.With(prometheus.Labels{}).Set(avg)
+			pingMax.With(prometheus.Labels{}).Set(avg)
 
 			time.Sleep(60 * time.Second)
 		}
