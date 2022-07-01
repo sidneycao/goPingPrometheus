@@ -71,7 +71,7 @@ func main() {
 			pingAvg.With(prometheus.Labels{"type": "avg"}).Set(avgF)
 			pingMax.With(prometheus.Labels{"type": "max"}).Set(maxF)
 
-			if avgF > 50 {
+			if avgF > 80 {
 				webhook(avg, max)
 			}
 
