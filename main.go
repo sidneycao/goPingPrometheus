@@ -16,9 +16,9 @@ import (
 )
 
 var (
-	host     = flag.String("h", "", "host 默认为空")
-	user     = flag.String("u", "root", "user 默认为root")
-	password = flag.String("p", "", "password 默认为空")
+	host = flag.String("h", "", "host 默认为空")
+	user = flag.String("u", "root", "user 默认为root")
+	//password = flag.String("p", "", "password 默认为空")
 	gateway  = flag.String("g", "192.168.203.254", "ping的目标")
 	httpPort = flag.String("P", ":9100", "port 默认为9100")
 )
