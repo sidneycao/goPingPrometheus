@@ -52,7 +52,7 @@ func main() {
 	go func() {
 		for {
 			//登陆测试机
-			res, err := sshTo(*user, *password, *host, *gateway)
+			res, err := sshTo(*user, *host, *gateway)
 			if err != nil {
 				log.Panic(err)
 			}
@@ -84,8 +84,9 @@ func main() {
 
 }
 
-func sshTo(user string, password string, host string, gateway string) (string, error) {
-	client, err := goph.New(user, host, goph.Password(password))
+func sshTo(user string, host string, gateway string) (string, error) {
+	key, _ := goph.Key("/root/.ssh/id_rsa", "")
+	client, err := goph.New(user, host, key)
 	if err != nil {
 		return "", err
 	}
